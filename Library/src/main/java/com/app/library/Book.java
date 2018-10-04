@@ -1,8 +1,9 @@
 package com.app.library;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
 
+//import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.NotNull;
 
-@Document(collection = "books")
+//@Document(collection = "books")
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(indexName = "book", type = "default")
 public class Book {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)

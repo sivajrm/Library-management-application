@@ -4,6 +4,8 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.app.library.Book;
 import java.util.ArrayList;
@@ -50,7 +52,18 @@ public class BookService {
 		if(book == null) {
 			logger.info("GET Book {} not found.",isbn);
 		}
-		logger.info("GET Book {} returned.",isbn);
+		else {
+			logger.info("GET Book {} returned.",isbn);
+		}
+		return book;
+	}
+	
+	public Page<Book> getBookByAuthor(String authorName) {
+		Page<Book> book = bookRepository.findByAuthor(authorName, new PageRequest(0, 10));
+		if(book.getContent().size() == 0) {
+			logger.info("GET Book {} not found.",authorName);
+		}
+		logger.info("GET Book {} returned.",authorName);
 		return book;
 	}
 	

@@ -3,6 +3,7 @@ package com.app.library;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +34,14 @@ public class BookController {
 	    if(book == null)
 	    	return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
 	    return new ResponseEntity<Book>(book, HttpStatus.OK);
+	}
+	
+	@GetMapping("/author/{authorName}")
+	public ResponseEntity<Page<Book>> getBookByAuthor(@PathVariable String authorName){
+	    Page<Book> book = bookService.getBookByAuthor(authorName);
+	    if(book == null)
+	    	return new ResponseEntity<Page<Book>>(HttpStatus.NOT_FOUND);
+	    return new ResponseEntity<Page<Book>>(book, HttpStatus.OK);
 	}
 	
 	@PostMapping()
