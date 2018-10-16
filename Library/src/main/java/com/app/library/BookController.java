@@ -1,6 +1,5 @@
 package com.app.library;
 
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,9 +22,14 @@ public class BookController {
 	private BookService bookService;
 	
 	@GetMapping()
-	public ResponseEntity<List<Book>> getAllBooks(){
-	    List<Book> books = bookService.getAllBooks();
-	    return new ResponseEntity<List<Book>>(books,HttpStatus.CREATED);
+	public ResponseEntity<Page<Book>> getAllBooksDefault(){
+	    return this.getAllBooks(0);
+	}
+	
+	@GetMapping("/page/{pageNumber}")
+	public ResponseEntity<Page<Book>> getAllBooks(@PathVariable int pageNumber){
+		Page<Book> books = bookService.getAllBooks(pageNumber);
+	    return new ResponseEntity<Page<Book>>(books,HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{isbn}")
@@ -39,6 +43,23 @@ public class BookController {
 	@GetMapping("/author/{authorName}")
 	public ResponseEntity<Page<Book>> getBookByAuthor(@PathVariable String authorName){
 	    Page<Book> book = bookService.getBookByAuthor(authorName);
+	    if(book == null)
+	    	return new ResponseEntity<Page<Book>>(HttpStatus.NOT_FOUND);
+	    return new ResponseEntity<Page<Book>>(book, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/bookName/{bookName}")
+	public ResponseEntity<Page<Book>> getBookByBookNameStartingWith(@PathVariable String bookName){
+	    Page<Book> book = bookService.getBookStartingWith(bookName,"book");
+	    if(book == null)
+	    	return new ResponseEntity<Page<Book>>(HttpStatus.NOT_FOUND);
+	    return new ResponseEntity<Page<Book>>(book, HttpStatus.OK);
+	}
+	
+	@GetMapping("/authorName/{authorName}")
+	public ResponseEntity<Page<Book>> getBookByAuthorNameStartingWith(@PathVariable String authorName){
+	    Page<Book> book = bookService.getBookStartingWith(authorName,"author");
 	    if(book == null)
 	    	return new ResponseEntity<Page<Book>>(HttpStatus.NOT_FOUND);
 	    return new ResponseEntity<Page<Book>>(book, HttpStatus.OK);

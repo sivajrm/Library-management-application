@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class BookService {
-	private static final Logger logger = LogManager.getLogger(LibraryApplication.class);
+	private static final Logger logger = LogManager.getLogger(BookService.class);
 	
 	/*
 	@Autowired
@@ -26,9 +26,8 @@ public class BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
-	public List<Book> getAllBooks(){
-		List<Book> books = new ArrayList<>();
-		bookRepository.findAll().forEach(books::add);
+	public Page<Book> getAllBooks(int page){
+		Page<Book> books = bookRepository.findAll(PageRequest.of(--page, 10));
 		logger.info("GET Books {} returned.", books);
 		return books;
 	}
@@ -59,11 +58,25 @@ public class BookService {
 	}
 	
 	public Page<Book> getBookByAuthor(String authorName) {
-		Page<Book> book = bookRepository.findByAuthor(authorName, new PageRequest(0, 10));
+		Page<Book> book = bookRepository.findByAuthor(authorName, PageRequest.of(0, 10));
 		if(book.getContent().size() == 0) {
 			logger.info("GET Book {} not found.",authorName);
 		}
 		logger.info("GET Book {} returned.",authorName);
+		return book;
+	}
+	
+	public Page<Book> getBookStartingWith(String name, String entity) {
+		Page<Book> book;
+		if(entity.equalsIgnoreCase("book"))
+			book = bookRepository.findByBookNameStartingWith(name, PageRequest.of(0, 10));
+		else
+			book = bookRepository.findByAuthorStartingWith(name, PageRequest.of(0, 10));
+		if(book.getContent().size() == 0) {
+			logger.info("GET Book with start name {} not found.",name);
+			return book;
+		}
+		logger.info("GET Book with start name {} returned.",name);
 		return book;
 	}
 	
