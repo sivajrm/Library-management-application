@@ -26,19 +26,22 @@ public class BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Autowired
+	private BookRepositoryWithMongoDB bookRepositoryWithMongoDB;
+	
 	public Page<Book> getAllBooks(int page){
-		Page<Book> books = bookRepository.findAll(PageRequest.of(--page, 10));
+		Page<Book> books = bookRepositoryWithMongoDB.findAll(PageRequest.of(--page, 10));
 		logger.info("GET Books {} returned.", books);
 		return books;
 	}
 	
 	public Book addBook(Book book) {
-		if(bookRepository.findByIsbn(book.getIsbn()) != null) {
+		if(bookRepositoryWithMongoDB.findByIsbn(book.getIsbn()) != null) {
 			logger.error("POST Book {} already exists.", book.getIsbn());
 			return null;
 		}
-		bookRepository.save(book);
-		if(bookRepository.findByIsbn(book.getIsbn()) == null) {
+		bookRepositoryWithMongoDB.save(book);
+		if(bookRepositoryWithMongoDB.findByIsbn(book.getIsbn()) == null) {
 			logger.error("POST Book {} not saved.", book.getIsbn());
 			return null;
 		}
@@ -47,7 +50,7 @@ public class BookService {
 	}
 	
 	public Book getBookByIsbn(String isbn) {
-		Book book = bookRepository.findByIsbn(isbn);
+		Book book = bookRepositoryWithMongoDB.findByIsbn(isbn);
 		if(book == null) {
 			logger.info("GET Book {} not found.",isbn);
 		}
@@ -58,7 +61,7 @@ public class BookService {
 	}
 	
 	public Page<Book> getBookByAuthor(String authorName) {
-		Page<Book> book = bookRepository.findByAuthor(authorName, PageRequest.of(0, 10));
+		Page<Book> book = bookRepositoryWithMongoDB.findByAuthor(authorName, PageRequest.of(0, 10));
 		if(book.getContent().size() == 0) {
 			logger.info("GET Book {} not found.",authorName);
 		}
@@ -69,9 +72,9 @@ public class BookService {
 	public Page<Book> getBookStartingWith(String name, String entity) {
 		Page<Book> book;
 		if(entity.equalsIgnoreCase("book"))
-			book = bookRepository.findByBookNameStartingWith(name, PageRequest.of(0, 10));
+			book = bookRepositoryWithMongoDB.findByBookNameStartingWith(name, PageRequest.of(0, 10));
 		else
-			book = bookRepository.findByAuthorStartingWith(name, PageRequest.of(0, 10));
+			book = bookRepositoryWithMongoDB.findByAuthorStartingWith(name, PageRequest.of(0, 10));
 		if(book.getContent().size() == 0) {
 			logger.info("GET Book with start name {} not found.",name);
 			return book;
@@ -81,7 +84,7 @@ public class BookService {
 	}
 	
 	public Book updateBookCount(String isbn, Integer value) {
-		Book book = bookRepository.findByIsbn(isbn);
+		Book book = bookRepositoryWithMongoDB.findByIsbn(isbn);
 		if(book == null) {
 			logger.error("PUT Book {} not found.", isbn);
 			return book;
@@ -92,19 +95,19 @@ public class BookService {
 			return book;
 		}
 		book.setCopies(book.getCopies()+value);
-		bookRepository.save(book);
-        book = bookRepository.findByIsbn(isbn);
+		bookRepositoryWithMongoDB.save(book);
+        book = bookRepositoryWithMongoDB.findByIsbn(isbn);
         logger.info("PUT Book {} count {} updated.", isbn, book.getCopies());
 		return book;
 	}
 	
 	public Book deleteBookByIsbn(String isbn) {
-		Book book = bookRepository.findByIsbn(isbn);
+		Book book = bookRepositoryWithMongoDB.findByIsbn(isbn);
 		if(book == null) {
 			logger.error("DELETE Book {} not found.", isbn);
 			return book;
 		}
-		bookRepository.delete(book);
+		bookRepositoryWithMongoDB.delete(book);
 		logger.info("DELETE Book {} deleted.", isbn);
 		return book;
 	}
@@ -116,7 +119,7 @@ public class BookService {
 			book.setIsbn(name);
 			book.setBookName(name);
 			book.setAuthor(name);
-			bookRepository.save(book);
+			bookRepositoryWithMongoDB.save(book);
 		}
 	}
 }
