@@ -1,4 +1,4 @@
-package com.app.library;
+package com.app.library.Book;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import com.app.library.Book;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Service
 public class BookService {
@@ -24,7 +22,7 @@ public class BookService {
 	*/
 	
 	@Autowired
-	private BookRepository bookRepository;
+	private BookRepositoryWithElasticSearch bookRepositoryWithElasticSearch;
 	
 	@Autowired
 	private BookRepositoryWithMongoDB bookRepositoryWithMongoDB;
