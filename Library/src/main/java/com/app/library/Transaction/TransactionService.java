@@ -1,13 +1,18 @@
-package com.app.library;
+package com.app.library.Transaction;
 
+import com.app.library.Book.Book;
+import com.app.library.Book.BookService;
+import com.app.library.Customer.CustomerRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {
-	private static final Logger logger = LogManager.getLogger(LibraryApplication.class);
+	private static final Logger logger = LogManager.getLogger(TransactionService.class);
 
 	@Autowired
 	private TransactionRepository transactionRepository;
@@ -17,6 +22,16 @@ public class TransactionService {
 	
 	@Autowired
 	private BookService bookService;
+
+	public Page<Transaction>  getAllTransactions(int page) {
+		Page<Transaction> transaction = transactionRepository.findAll(PageRequest.of(--page, 10));
+		if(transaction == null) {
+			logger.info("GET Transaction Page:{}  not found.",page);
+			return transaction;
+		}
+		logger.info("GET Transaction Page:{} returned {} transactions.", page ,transaction.getTotalElements());
+		return transaction;
+	}
 	
 	public Transaction getTransactionByIsbnAndUserName(String isbn, String userName) {
 		Transaction transaction = transactionRepository.findByIsbnAndUserName(isbn, userName);

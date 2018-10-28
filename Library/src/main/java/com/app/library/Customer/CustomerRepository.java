@@ -1,7 +1,7 @@
-package com.app.library;
+package com.app.library.Customer;
 
 import org.springframework.data.repository.CrudRepository;
 
 public interface CustomerRepository extends CrudRepository<Customer, String > {
-	public Customer findByUserName(String userName); 
+	Customer findByUserName(String userName);
 }
