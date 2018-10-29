@@ -1,7 +1,0 @@
-management:
-  security:
-    enabled: true
-
-#spring:
-#  resources:
-#    enabled: true
