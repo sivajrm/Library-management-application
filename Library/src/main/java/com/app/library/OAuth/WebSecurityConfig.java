@@ -24,15 +24,15 @@ import static com.app.library.OAuth.Constants.SIGN_UP_URL;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private ApplicationUserRepository applicationUserRepository;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    @Autowired
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -49,7 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
-        //auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean

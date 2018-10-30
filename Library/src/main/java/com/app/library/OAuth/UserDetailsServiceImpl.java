@@ -14,11 +14,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    private ApplicationUserRepository applicationUserRepository;
 
-    public ApplicationUserRepository applicationUserRepository;
-
-    public UserDetailsServiceImpl() {
+    @Autowired
+    public UserDetailsServiceImpl(ApplicationUserRepository applicationUserRepository) {
         super();
+        //this.applicationUserRepository = applicationUserRepository;
     }
 
     @Override
