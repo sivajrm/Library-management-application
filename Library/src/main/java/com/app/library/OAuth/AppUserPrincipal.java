@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class AppUserPrincipal implements UserDetails {
+public class AppUserPrincipal extends ApplicationUser implements UserDetails {
 
     private final ApplicationUser user;
 

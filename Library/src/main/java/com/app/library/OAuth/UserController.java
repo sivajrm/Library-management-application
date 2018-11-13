@@ -19,7 +19,7 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    UserService userService;
 
     @Autowired
     public UserController(BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody ApplicationUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDetailsService.saveUser(user);
+        userService.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/sign-up")
                 .buildAndExpand(user.getUsername()).toUri();

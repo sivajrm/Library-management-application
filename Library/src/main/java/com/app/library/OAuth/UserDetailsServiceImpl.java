@@ -1,18 +1,26 @@
 package com.app.library.OAuth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-@Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+import static java.util.Collections.emptyList;
+
+
+@Service(value = "userService")
+public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
-    private ApplicationUserRepository applicationUserRepository;
+    ApplicationUserRepository applicationUserRepository;
 
     @Override
     @Transactional
@@ -21,11 +29,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new AppUserPrincipal(applicationUser);
+        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
     }
 
-    public ApplicationUser saveUser(ApplicationUser applicationUser){
-        applicationUserRepository.save(applicationUser);
-        return applicationUser;
+    @Override
+    public ApplicationUser save(ApplicationUser user) {
+        return applicationUserRepository.save(user);
+    }
+
+    @Override
+    public List<ApplicationUser> findAll() {
+        List<ApplicationUser> list = new ArrayList<>();
+        applicationUserRepository.findAll().iterator().forEachRemaining(list::add);
+        return list;
     }
 }
