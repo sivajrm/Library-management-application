@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 
@@ -35,6 +34,10 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     @Override
     public ApplicationUser save(ApplicationUser user) {
         return applicationUserRepository.save(user);
+    }
+
+    public ApplicationUser findByUserName(String userName){
+        return applicationUserRepository.findByUsername(userName);
     }
 
     @Override
