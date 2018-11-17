@@ -1,6 +1,4 @@
-package com.app.library.OAuth;
-
-import org.springframework.beans.factory.annotation.Autowired;
+package com.app.library.OAuth.User;
 
 import java.util.List;
 

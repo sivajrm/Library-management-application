@@ -1,4 +1,4 @@
-package com.app.library.OAuth;
+package com.app.library.OAuth.Security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.app.library.OAuth;
+package com.app.library.OAuth.Security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.app.library.OAuth;
+package com.app.library.OAuth.Security;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;

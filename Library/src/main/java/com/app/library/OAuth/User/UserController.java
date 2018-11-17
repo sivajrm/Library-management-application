@@ -1,6 +1,5 @@
-package com.app.library.OAuth;
+package com.app.library.OAuth.User;
 
-import com.app.library.exception_handler.RestExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
