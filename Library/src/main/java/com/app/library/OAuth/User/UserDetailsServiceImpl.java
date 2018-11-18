@@ -1,17 +1,16 @@
 package com.app.library.OAuth.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 
 @Service(value = "userService")
@@ -27,7 +26,8 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+        List<SimpleGrantedAuthority> authorities = applicationUser.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(toList());
+        return new User(applicationUser.getUsername(), applicationUser.getPassword(), authorities);
     }
 
     @Override

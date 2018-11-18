@@ -5,8 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -15,7 +17,7 @@ public class CustomerController {
 	private static final Logger logger = LogManager.getLogger(CustomerController.class);
 
 	@Autowired
-	private CustomerService customerService;
+	CustomerService customerService;
 	
 	@GetMapping()
 	public ResponseEntity<List<Customer>> getAllCustomers(){

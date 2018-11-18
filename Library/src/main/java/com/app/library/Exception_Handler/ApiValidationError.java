@@ -1,4 +1,4 @@
-package com.app.library.exception_handler;
+package com.app.library.Exception_Handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
