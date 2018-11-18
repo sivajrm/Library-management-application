@@ -1,7 +1,6 @@
-package com.app.library.OAuth;
+package com.app.library.OAuth.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 
@@ -35,6 +33,10 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     @Override
     public ApplicationUser save(ApplicationUser user) {
         return applicationUserRepository.save(user);
+    }
+
+    public ApplicationUser findByUserName(String userName){
+        return applicationUserRepository.findByUsername(userName);
     }
 
     @Override

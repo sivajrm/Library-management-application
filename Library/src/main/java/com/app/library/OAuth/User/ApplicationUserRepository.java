@@ -1,4 +1,4 @@
-package com.app.library.OAuth;
+package com.app.library.OAuth.User;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
