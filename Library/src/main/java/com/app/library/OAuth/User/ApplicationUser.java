@@ -1,9 +1,11 @@
 package com.app.library.OAuth.User;
 
 import lombok.Data;
-
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -12,4 +14,6 @@ public class ApplicationUser {
     private String id;
     private String username;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Collection<Role> roles;
 }

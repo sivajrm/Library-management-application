@@ -1,59 +1,53 @@
 package com.app.library.OAuth.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class AppUserPrincipal extends ApplicationUser implements UserDetails {
+import static com.app.library.OAuth.Constants.ROLE_PREFIX;
 
-    private final ApplicationUser user;
+@Data
+@AllArgsConstructor
+public class AppUserPrincipal implements UserDetails {
 
-    public AppUserPrincipal(ApplicationUser user) {
-        this.user = user;
-    }
-
-    @Override
-    public String getUsername() {
-        return user.getUsername();
-    }
-
-    @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
+    private String userName;
+    private String password;
+    private String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        final List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("User"));
+        final List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(ROLE_PREFIX + role));
         return authorities;
     }
 
     @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
-    }
-
-    public ApplicationUser getAppUser() {
-        return user;
+        return false;
     }
 
 }
