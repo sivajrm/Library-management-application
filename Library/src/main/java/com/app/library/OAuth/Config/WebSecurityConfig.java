@@ -1,6 +1,7 @@
 package com.app.library.OAuth.Config;
 
 
+import com.app.library.OAuth.CustomTokenStore.MongoUserDetailsService;
 import com.app.library.OAuth.User.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.persistence.Access;
 
 
 @Configuration
@@ -26,11 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+//    @Autowired
+//    UserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    MongoUserDetailsService mongoUserDetailsService;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+            auth.userDetailsService(mongoUserDetailsService).passwordEncoder(passwordEncoder());
     }
 }

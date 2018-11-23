@@ -1,5 +1,7 @@
 package com.app.library.OAuth.Config;
 
+import com.app.library.OAuth.CustomTokenStore.MongoUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +17,9 @@ import static com.app.library.OAuth.Constants.SIGN_UP_URL;
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+    @Autowired
+    MongoUserDetailsService mongoUserDetailsService;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -35,7 +40,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         }))
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,authException.getMessage());
-                        });
+                        })
+                .and()
+                    .userDetailsService(mongoUserDetailsService);
     }
 
 }

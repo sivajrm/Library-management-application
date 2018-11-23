@@ -1,5 +1,8 @@
 package com.app.library.OAuth.Config;
 
+import com.app.library.OAuth.CustomTokenStore.MongoClientDetailsService;
+import com.app.library.OAuth.CustomTokenStore.MongoTokenStore;
+import com.app.library.OAuth.CustomTokenStore.MongoUserDetailsService;
 import com.app.library.OAuth.User.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,18 +24,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     AuthenticationManager authenticationManager;
 
+//    @Autowired
+//    UserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    MongoUserDetailsService mongoUserDetailsService;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
+        clients.withClientDetails(new MongoClientDetailsService())
                 .withClient(CLIENT_ID)
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                 .scopes("read", "write", "trust")
                 .secret("{noop}secret")
-                .accessTokenValiditySeconds(120)  //Access token is only valid for 2 minutes.
+                .accessTokenValiditySeconds(120)//Access token is only valid for 2 minutes.
                 .refreshTokenValiditySeconds(600);//Refresh token is only valid for 10 minutes.
     }
 
@@ -40,7 +46,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(tokenStore())
                  .tokenEnhancer(getTokenEnhancer())
-                 .userDetailsService(userDetailsService)
+                 .userDetailsService(mongoUserDetailsService)
                  .authenticationManager(authenticationManager);
     }
 
@@ -49,7 +55,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     private TokenStore tokenStore() {
-        return new InMemoryTokenStore();
+        return new MongoTokenStore();
     }
 
 }
