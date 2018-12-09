@@ -11,12 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+//Transaction entity
 @Document(collection = "transactions")
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Transaction {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)

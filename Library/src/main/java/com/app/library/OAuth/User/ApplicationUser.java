@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.util.Collection;
 
+//User entity
 @Entity
 @Data
 public class ApplicationUser {

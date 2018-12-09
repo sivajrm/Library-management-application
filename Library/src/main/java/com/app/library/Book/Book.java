@@ -11,9 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-//import org.springframework.data.mongodb.core.mapping.Document;
-
-//@Document(collection = "books")
+//Book entity
 @Entity
 @Data
 @AllArgsConstructor

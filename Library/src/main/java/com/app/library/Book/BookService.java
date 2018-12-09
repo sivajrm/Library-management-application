@@ -12,15 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookService {
 	private static final Logger logger = LogManager.getLogger(BookService.class);
-	
-	/*
-	@Autowired
-	private MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-	MongoDatabase database = mongoClient.getDatabase("TestDatabase");
-	MongoCollection<Document> booksCollection = database.getCollection("books");
-	MongoOperations mongoOperations = new MongoTemplate(new SimpleMongoDbFactory( new MongoClient(), "TestDatabase"));
-	*/
-	
+
 	@Autowired
 	private BookRepositoryWithElasticSearch bookRepositoryWithElasticSearch;
 	
