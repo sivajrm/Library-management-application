@@ -36,7 +36,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                     .exceptionHandling()
                         .accessDeniedHandler(((httpServletRequest, httpServletResponse, e) -> {
-                            httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN,"Access denied!! You don't have the privileges to access this resource." );
+                            httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN,"Access denied!! " +
+                                    "You don't have the privileges to access this resource." );
                         }))
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,authException.getMessage());

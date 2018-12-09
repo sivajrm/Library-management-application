@@ -29,9 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//    @Autowired
-//    UserDetailsServiceImpl userDetailsService;
-
     @Autowired
     MongoUserDetailsService mongoUserDetailsService;
 

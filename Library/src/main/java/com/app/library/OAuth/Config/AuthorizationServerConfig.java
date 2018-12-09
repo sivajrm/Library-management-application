@@ -24,9 +24,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     AuthenticationManager authenticationManager;
 
-//    @Autowired
-//    UserDetailsServiceImpl userDetailsService;
-
     @Autowired
     MongoUserDetailsService mongoUserDetailsService;
 
